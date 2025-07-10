@@ -7,18 +7,18 @@ import ErrorPage from "./pages/ErrorPage";
 
 export default function App() {
   return (
-    <div className="d-flex">
-      <Navbar />
-      <div className="flex-grow-1 p-3">
-        <Router>
+    <Router>
+      <div className="d-flex">
+        <Navbar />
+        <div className="flex-grow-1 p-3">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
-        </Router>
+        </div>
       </div>
-    </div>
+    </Router>
   );
 }
