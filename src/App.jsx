@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Navbar from "./components/Navbar";
+import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
@@ -10,7 +10,7 @@ export default function App() {
   return (
     <Router>
       <div className="min-vh-100 d-flex flex-column">
-        <Navbar />
+        <Header />
         <main className="flex-grow-1">
           <Routes>
             <Route path="/" element={<Home />} />

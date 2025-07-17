@@ -1,9 +1,9 @@
 import { Navbar as BootstrapNavbar, Nav, Container } from "react-bootstrap";
 import "../index.css";
 
-export default function Navbar() {
+export default function Header() {
   return (
-    <BootstrapNavbar bg="light" expand="lg" className="mb-4">
+    <BootstrapNavbar bg="light" expand="lg" className="">
       <Container>
         <BootstrapNavbar.Brand href="/">Good2Eat</BootstrapNavbar.Brand>
         <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />

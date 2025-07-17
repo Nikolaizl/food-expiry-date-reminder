@@ -1,25 +1,34 @@
 import { format } from "date-fns";
 import { Card, Dropdown } from "react-bootstrap";
 import { useState } from "react";
+import noImage from "../assets/images/no_image.png";
 
-export default function FoodCard({ food, onUpdate, onDelete }) {
-  const [menuVisible, setMenuVisible] = useState(false);
+export default function FoodCard({ food, onUpdate, onDelete, onPressFood }) {
+  const [optionVisible, setOptionVisible] = useState(false);
   if (!food || !food.id) return null;
 
   const handleToggle = (isOpen) => {
-    setMenuVisible(isOpen);
+    setOptionVisible(isOpen);
+  };
+
+  const handleCardClick = () => {
+    if (!optionVisible) {
+      onPressFood(food);
+    }
   };
 
   return (
-    <Card className="h-100 shadow-sm" style={{ cursor: "pointer" }}>
-      {food.image_url && (
-        <Card.Img
-          variant="top"
-          src={food.image_url}
-          alt={food.name}
-          style={{ height: "200px", objectFit: "cover" }}
-        />
-      )}
+    <Card
+      className="h-100 shadow-sm"
+      style={{ cursor: "pointer" }}
+      onClick={handleCardClick}
+    >
+      <Card.Img
+        variant="top"
+        src={food.image_url || noImage}
+        alt={food.name}
+        style={{ height: "250px", objectFit: "cover" }}
+      />
 
       <Card.Body className="d-flex flex-column justify-content-between">
         <div>
@@ -46,7 +55,7 @@ export default function FoodCard({ food, onUpdate, onDelete }) {
           </span>
 
           <Dropdown
-            show={menuVisible}
+            show={optionVisible}
             onToggle={handleToggle}
             onClick={(e) => e.stopPropagation()}
           >
@@ -55,13 +64,13 @@ export default function FoodCard({ food, onUpdate, onDelete }) {
               size="sm"
               id={`dropdown-${food.id}`}
             >
-              ⋮
+              Menu
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
               <Dropdown.Item
                 onClick={() => {
-                  setMenuVisible(false);
+                  setOptionVisible(false);
                   onUpdate(food);
                 }}
               >
@@ -69,7 +78,7 @@ export default function FoodCard({ food, onUpdate, onDelete }) {
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
-                  setMenuVisible(false);
+                  setOptionVisible(false);
                   onDelete(food.id);
                 }}
               >

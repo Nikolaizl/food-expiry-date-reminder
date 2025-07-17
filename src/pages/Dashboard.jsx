@@ -3,11 +3,14 @@ import { Button } from "react-bootstrap";
 import FoodCard from "../components/FoodCard";
 import { getFoods, deleteFood } from "../api";
 import AddFoodModal from "../components/AddFoodModal";
+import FoodDetailModal from "../components/FoodDetailModal";
 
 export default function Dashboard() {
   const [foods, setFoods] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false);
   const [foodToEdit, setFoodToEdit] = useState(null);
+  const [selectedFood, setSelectedFood] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -34,6 +37,16 @@ export default function Dashboard() {
   const handleCloseModal = () => {
     setShowModal(false);
     setFoodToEdit(null);
+  };
+
+  const handleShowDetails = (food) => {
+    setSelectedFood(food);
+    setShowDetailModal(true);
+  };
+
+  const handleCloseDetails = () => {
+    setShowDetailModal(false);
+    setSelectedFood(null);
   };
 
   const handleDelete = async (foodId) => {
@@ -65,7 +78,7 @@ export default function Dashboard() {
                 food={food}
                 onUpdate={handleUpdate}
                 onDelete={handleDelete}
-                onPressFood={(food) => console.log("Pressed:", food)}
+                onPressFood={handleShowDetails}
               />
             </div>
           ))
@@ -79,6 +92,12 @@ export default function Dashboard() {
         onClose={handleCloseModal}
         onFoodAdded={fetchFoods}
         foodToEdit={foodToEdit}
+      />
+
+      <FoodDetailModal
+        show={showDetailModal}
+        onClose={handleCloseDetails}
+        food={selectedFood}
       />
     </div>
   );
