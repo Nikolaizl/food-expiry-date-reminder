@@ -1,19 +1,20 @@
-import { Nav } from "react-bootstrap";
+import { Navbar as BootstrapNavbar, Nav, Container } from "react-bootstrap";
 import "../index.css";
 
 export default function Navbar() {
   return (
-    <div
-      className="sidebar-fixed d-flex flex-column vh-100 p-3 bg-light"
-      style={{ width: "200px" }}
-    >
-      <h4>Good2Eat</h4>
-      <Nav className="flex-column">
-        <Nav.Link href="/">Home</Nav.Link>
-        <Nav.Link href="/dashboard">Dashboard</Nav.Link>
-        <Nav.Link href="/add">Add Food</Nav.Link>
-        <Nav.Link href="/settings">Settings</Nav.Link>
-      </Nav>
-    </div>
+    <BootstrapNavbar bg="light" expand="lg" className="mb-4">
+      <Container>
+        <BootstrapNavbar.Brand href="/">Good2Eat</BootstrapNavbar.Brand>
+        <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
+        <BootstrapNavbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+            <Nav.Link href="/settings">Settings</Nav.Link>
+          </Nav>
+        </BootstrapNavbar.Collapse>
+      </Container>
+    </BootstrapNavbar>
   );
 }

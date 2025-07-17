@@ -13,8 +13,12 @@ export async function deleteFood(id) {
   return response.data;
 }
 
-export async function createFood(data) {
-  const response = await axios.post(`${BASE_URL}/foods`, data);
+export async function createFood(formData) {
+  const response = await axios.post(`${BASE_URL}/foods`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
   return response.data;
 }
 
