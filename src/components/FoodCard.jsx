@@ -1,4 +1,9 @@
-import { format } from "date-fns";
+import {
+  format,
+  differenceInCalendarDays,
+  isBefore,
+  startOfDay,
+} from "date-fns";
 import { Card, Dropdown } from "react-bootstrap";
 import { useState } from "react";
 import noImage from "../assets/images/no_image.png";
@@ -17,6 +22,21 @@ export default function FoodCard({ food, onUpdate, onDelete, onPressFood }) {
     }
   };
 
+  const today = startOfDay(new Date());
+  const expiryDate = startOfDay(new Date(food.expiry_date));
+  const daysLeft = differenceInCalendarDays(expiryDate, today);
+
+  let status = "Fresh";
+  let badgeClass = "bg-primary";
+
+  if (isBefore(expiryDate, today)) {
+    status = "Expired";
+    badgeClass = "bg-danger";
+  } else if (daysLeft <= 3) {
+    status = "Expiring soon";
+    badgeClass = "bg-warning text-dark";
+  }
+
   return (
     <Card
       className="h-100 shadow-sm"
@@ -34,7 +54,7 @@ export default function FoodCard({ food, onUpdate, onDelete, onPressFood }) {
         <div>
           <Card.Title>{food.name}</Card.Title>
           <Card.Text className="text-muted mb-1">
-            Expiry: {format(new Date(food.expiry_date), "dd/MM/yyyy")}
+            Expiry: {format(expiryDate, "dd/MM/yyyy")}
           </Card.Text>
           <Card.Text className="text-muted mb-2">
             Quantity: <strong>{food.quantity}</strong>
@@ -42,17 +62,7 @@ export default function FoodCard({ food, onUpdate, onDelete, onPressFood }) {
         </div>
 
         <div className="d-flex justify-content-between align-items-center mt-3">
-          <span
-            className={`badge ${
-              food.status === "Expired"
-                ? "bg-danger"
-                : food.status === "Expiring soon"
-                ? "bg-warning text-dark"
-                : "bg-primary"
-            }`}
-          >
-            {food.status}
-          </span>
+          <span className={`badge ${badgeClass}`}>{status}</span>
 
           <Dropdown
             show={optionVisible}
