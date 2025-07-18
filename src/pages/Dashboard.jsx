@@ -73,7 +73,7 @@ export default function Dashboard() {
           </div>
         ) : foods.length > 0 ? (
           foods.map((food) => (
-            <div key={food.id} className="col-12 col-md-6 col-lg-4">
+            <div key={food.id} className="col-12 col-sm-6 col-md-4 col-lg-3">
               <FoodCard
                 food={food}
                 onUpdate={handleUpdate}
