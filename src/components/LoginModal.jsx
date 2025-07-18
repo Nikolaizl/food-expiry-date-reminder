@@ -22,28 +22,45 @@ export default function LoginModal({ show, onClose, defaultIsSignUp = false }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
+      console.log("Attempting authentication...", { isSignUp });
       if (isSignUp) {
-        await createUserWithEmailAndPassword(auth, email, password);
+        const result = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        console.log("Sign up successful:", { userId: result.user.uid });
       } else {
-        await signInWithEmailAndPassword(auth, email, password);
+        const result = await signInWithEmailAndPassword(auth, email, password);
+        console.log("Sign in successful:", { userId: result.user.uid });
       }
       handleClose();
     } catch (error) {
+      console.error("Authentication error:", error);
       setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleGoogleSignIn = async () => {
     setError("");
+    setLoading(true);
 
     try {
+      console.log("Attempting Google sign in...");
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      console.log("Google sign in successful:", { userId: result.user.uid });
       handleClose();
     } catch (error) {
+      console.error("Google sign in error:", error);
       setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -97,7 +114,7 @@ export default function LoginModal({ show, onClose, defaultIsSignUp = false }) {
               type="button"
               onClick={handleGoogleSignIn}
             >
-              <i class="bi bi-google"></i> Sign in with Google
+              <i className="bi bi-google"></i> Sign in with Google
             </Button>
           </div>
         </Modal.Body>

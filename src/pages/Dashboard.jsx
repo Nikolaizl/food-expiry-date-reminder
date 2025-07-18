@@ -1,33 +1,45 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Button } from "react-bootstrap";
 import FoodCard from "../components/FoodCard";
 import { getFoods, deleteFood } from "../api";
 import AddFoodModal from "../components/AddFoodModal";
+import { useAuth } from "../context/AuthContext";
 import FoodDetailModal from "../components/FoodDetailModal";
 
 export default function Dashboard() {
+  console.log("Dashboard component mounting");
   const [foods, setFoods] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [foodToEdit, setFoodToEdit] = useState(null);
   const [selectedFood, setSelectedFood] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { getIdToken, currentUser } = useAuth();
 
-  useEffect(() => {
-    fetchFoods();
-  }, []);
+  console.log("Auth state:", { isAuthenticated: !!currentUser });
 
-  const fetchFoods = async () => {
+  const fetchFoods = useCallback(async () => {
+    console.log("Fetching foods...");
     setIsLoading(true);
     try {
-      const data = await getFoods();
+      const freshToken = await getIdToken(true);
+      console.log("Token obtained:", !!freshToken);
+      if (!freshToken) {
+        throw new Error("Not authenticated");
+      }
+      const data = await getFoods(freshToken);
+      console.log("Foods fetched:", data);
       setFoods(data);
     } catch (err) {
       console.error("Error fetching foods:", err);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [getIdToken]);
+
+  useEffect(() => {
+    fetchFoods();
+  }, [fetchFoods]);
 
   const handleUpdate = (food) => {
     setFoodToEdit(food);
@@ -51,7 +63,11 @@ export default function Dashboard() {
 
   const handleDelete = async (foodId) => {
     try {
-      await deleteFood(foodId);
+      const freshToken = await getIdToken(true);
+      if (!freshToken) {
+        throw new Error("Not authenticated");
+      }
+      await deleteFood(foodId, freshToken);
       setFoods((prev) => prev.filter((f) => f.id !== foodId));
     } catch (err) {
       console.error("Error deleting food:", err);

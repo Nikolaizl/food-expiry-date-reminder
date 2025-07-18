@@ -23,11 +23,13 @@ export default function Header({ onLoginClick }) {
   return (
     <BootstrapNavbar bg="light" expand="lg" className="">
       <Container>
-        <BootstrapNavbar.Brand href="/">Good2Eat</BootstrapNavbar.Brand>
+        <BootstrapNavbar.Brand href={currentUser ? "/dashboard" : "/"}>
+          Good2Eat
+        </BootstrapNavbar.Brand>
         <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
         <BootstrapNavbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
+            {!currentUser && <Nav.Link href="/">Home</Nav.Link>}
             {currentUser && (
               <>
                 <Nav.Link href="/dashboard">Dashboard</Nav.Link>

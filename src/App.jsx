@@ -12,19 +12,12 @@ import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import ErrorPage from "./pages/ErrorPage";
 import LoginModal from "./components/LoginModal";
-import { AuthProvider, useAuth } from "./context/AuthContext";
-
-function PrivateRoute({ children }) {
-  const { currentUser, loading } = useAuth();
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  return currentUser ? children : <Navigate to="/" />;
-}
+import { AuthProvider } from "./context/AuthContext";
+import PrivateRoute from "./components/PrivateRoute";
+import PublicRoute from "./components/PublicRoute";
 
 export default function App() {
+  console.log("App component rendering");
   const [showLogin, setShowLogin] = useState(false);
 
   return (
@@ -34,7 +27,14 @@ export default function App() {
           <Header onLoginClick={() => setShowLogin(true)} />
           <main className="flex-grow-1">
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route
+                path="/"
+                element={
+                  <PublicRoute>
+                    <Home />
+                  </PublicRoute>
+                }
+              />
               <Route
                 path="/dashboard"
                 element={
