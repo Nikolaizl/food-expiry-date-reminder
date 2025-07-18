@@ -21,7 +21,7 @@ export default function Header({ onLoginClick }) {
   };
 
   return (
-    <BootstrapNavbar bg="light" expand="lg" className="mb-4">
+    <BootstrapNavbar bg="light" expand="lg" className="">
       <Container>
         <BootstrapNavbar.Brand href="/">Good2Eat</BootstrapNavbar.Brand>
         <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />

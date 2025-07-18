@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal, Form, Button, Alert } from "react-bootstrap";
 import {
   signInWithEmailAndPassword,
@@ -8,17 +8,20 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
 
-export default function LoginModal({ show, onClose }) {
+export default function LoginModal({ show, onClose, defaultIsSignUp = false }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isSignUp, setIsSignUp] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(defaultIsSignUp);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setIsSignUp(defaultIsSignUp);
+  }, [defaultIsSignUp]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
 
     try {
       if (isSignUp) {
@@ -29,14 +32,11 @@ export default function LoginModal({ show, onClose }) {
       handleClose();
     } catch (error) {
       setError(error.message);
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleGoogleSignIn = async () => {
     setError("");
-    setLoading(true);
 
     try {
       const provider = new GoogleAuthProvider();
@@ -44,8 +44,6 @@ export default function LoginModal({ show, onClose }) {
       handleClose();
     } catch (error) {
       setError(error.message);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -90,27 +88,22 @@ export default function LoginModal({ show, onClose }) {
           </Form.Group>
 
           <div className="d-grid gap-2">
-            <Button variant="primary" type="submit" disabled={loading}>
-              {loading ? "Loading..." : isSignUp ? "Sign Up" : "Login"}
+            <Button variant="primary" type="submit">
+              {isSignUp ? "Sign Up" : "Login"}
             </Button>
 
             <Button
-              variant="outline-danger"
+              variant="secondary"
               type="button"
               onClick={handleGoogleSignIn}
-              disabled={loading}
             >
-              {loading ? "Loading..." : "Sign in with Google"}
+              <i class="bi bi-google"></i> Sign in with Google
             </Button>
           </div>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button
-            variant="link"
-            onClick={() => setIsSignUp(!isSignUp)}
-            disabled={loading}
-          >
+          <Button variant="link" onClick={() => setIsSignUp(!isSignUp)}>
             {isSignUp
               ? "Already have an account? Login"
               : "Don't have an account? Sign Up"}
