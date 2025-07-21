@@ -1,14 +1,16 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAT5CY3riRfRIa7ph3gfCHaSeW11kpFeGY",
-  authDomain: "good2eat-a8e67.firebaseapp.com",
-  projectId: "good2eat-a8e67",
-  storageBucket: "good2eat-a8e67.firebasestorage.app",
-  messagingSenderId: "948989950776",
-  appId: "1:948989950776:web:0e97ef62f98f8b3ec8dfcd",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
+const messaging = getMessaging(app);
+
 export const auth = getAuth(app);
+export { messaging, getToken, onMessage };

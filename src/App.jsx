@@ -1,10 +1,5 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Home from "./pages/Home";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -15,10 +10,43 @@ import LoginModal from "./components/LoginModal";
 import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
+import { messaging, getToken, onMessage } from "./firebase-messaging";
 
 export default function App() {
   console.log("App component rendering");
   const [showLogin, setShowLogin] = useState(false);
+
+  useEffect(() => {
+    async function requestPermission() {
+      try {
+        const currentToken = await getToken(messaging, {
+          vapidKey: "YOUR_WEB_PUSH_VAPID_KEY",
+        });
+        if (currentToken) {
+          console.log("Push token:", currentToken);
+        } else {
+          console.warn("No registration token available.");
+        }
+      } catch (err) {
+        console.error("An error occurred while retrieving token.", err);
+      }
+    }
+
+    requestPermission();
+
+    onMessage(messaging, (payload) => {
+      console.log("Message received. ", payload);
+      alert(payload.notification.title + ": " + payload.notification.body);
+    });
+  }, []);
+
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .register("/firebase-messaging-sw.js")
+      .then((registration) => {
+        console.log("Service Worker registered:", registration);
+      });
+  }
 
   return (
     <AuthProvider>
