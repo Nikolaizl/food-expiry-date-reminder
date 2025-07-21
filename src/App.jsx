@@ -10,7 +10,7 @@ import LoginModal from "./components/LoginModal";
 import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
-import { messaging, getToken, onMessage } from "./firebase-messaging";
+import { messaging, getToken, onMessage } from "./firebase/firebaseConfig";
 
 export default function App() {
   console.log("App component rendering");

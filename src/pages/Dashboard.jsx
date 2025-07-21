@@ -94,7 +94,6 @@ export default function Dashboard() {
       <div className="d-flex justify-content-between align-items-center mb-3">
         <Button onClick={() => setShowModal(true)}>+ Add Food</Button>
 
-        {/* 🔽 Sort Dropdown */}
         <select
           className="form-select w-auto"
           value={sortBy}

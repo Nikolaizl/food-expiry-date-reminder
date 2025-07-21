@@ -151,7 +151,7 @@ export default function AddFoodModal({
               className="mt-2"
               onClick={handleAutoFill}
             >
-              Auto-fill
+              Search
             </Button>
             {loadingSuggestions && (
               <div className="mt-2 text-muted">

@@ -26,15 +26,27 @@ export default function FoodCard({ food, onUpdate, onDelete, onPressFood }) {
   const expiryDate = startOfDay(new Date(food.expiry_date));
   const daysLeft = differenceInCalendarDays(expiryDate, today);
 
-  let status = "Fresh";
+  let status = (
+    <span>
+      <i class="bi bi-battery-full"></i> Fresh
+    </span>
+  );
   let badgeClass = "bg-primary";
 
   if (isBefore(expiryDate, today)) {
-    status = "Expired";
+    status = (
+      <span>
+        <i class="bi bi-battery-low"></i> Expired
+      </span>
+    );
     badgeClass = "bg-danger";
   } else if (daysLeft <= 3) {
-    status = "Expiring soon";
-    badgeClass = "bg-warning text-dark";
+    status = (
+      <span>
+        <i class="bi bi-battery-half"></i> Expiring soon
+      </span>
+    );
+    badgeClass = "bg-warning";
   }
 
   return (
@@ -62,7 +74,7 @@ export default function FoodCard({ food, onUpdate, onDelete, onPressFood }) {
         </div>
 
         <div className="d-flex justify-content-between align-items-center mt-3">
-          <span className={`badge ${badgeClass}`}>{status}</span>
+          <span className={`badge ${badgeClass} fs-6`}>{status}</span>
 
           <Dropdown
             show={optionVisible}
@@ -84,7 +96,7 @@ export default function FoodCard({ food, onUpdate, onDelete, onPressFood }) {
                   onUpdate(food);
                 }}
               >
-                Update
+                <i class="bi bi-pencil"></i> Update
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
@@ -92,7 +104,7 @@ export default function FoodCard({ food, onUpdate, onDelete, onPressFood }) {
                   onDelete(food.id);
                 }}
               >
-                Delete
+                <i class="bi bi-trash3"></i> Delete
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
