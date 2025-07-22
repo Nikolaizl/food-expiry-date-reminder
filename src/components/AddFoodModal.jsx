@@ -23,11 +23,12 @@ export default function AddFoodModal({
   useEffect(() => {
     if (foodToEdit) {
       setName(foodToEdit.name);
-      setExpiryDate(foodToEdit.expiry_date);
+      setExpiryDate(foodToEdit.expiry_date?.substring(0, 10) || "");
       setQuantity(foodToEdit.quantity);
       setStatus(foodToEdit.status);
       if (foodToEdit.image_url) {
         setPreviewUrl(foodToEdit.image_url);
+        setImageUrl(foodToEdit.image_url);
       }
     }
   }, [foodToEdit]);
@@ -72,7 +73,9 @@ export default function AddFoodModal({
       if (selectedImage) {
         formData.append("image", selectedImage);
       } else if (imageUrl) {
-        formData.append("image_url", imageUrl); // New line
+        formData.append("image_url", imageUrl);
+      } else if (foodToEdit?.image_url) {
+        formData.append("image_url", foodToEdit.image_url);
       }
 
       console.log(

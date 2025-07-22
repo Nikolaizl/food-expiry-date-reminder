@@ -20,7 +20,7 @@ export default function App() {
     async function requestPermission() {
       try {
         const currentToken = await getToken(messaging, {
-          vapidKey: "YOUR_WEB_PUSH_VAPID_KEY",
+          vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
         });
         if (currentToken) {
           console.log("Push token:", currentToken);
