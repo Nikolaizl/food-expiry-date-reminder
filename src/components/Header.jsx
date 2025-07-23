@@ -8,6 +8,7 @@ import { useAuth } from "../context/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
 import "../index.css";
+import logo from "../assets/images/Logo_Good2Eat.png";
 
 export default function Header({ onLoginClick }) {
   const { currentUser } = useAuth();
@@ -24,6 +25,13 @@ export default function Header({ onLoginClick }) {
     <BootstrapNavbar bg="light" expand="lg" className="">
       <Container>
         <BootstrapNavbar.Brand href={currentUser ? "/dashboard" : "/"}>
+          <img
+            src={logo}
+            alt="Good2Eat Logo"
+            width="30"
+            height="30"
+            className="d-inline-block align-top me-2"
+          />
           Good2Eat
         </BootstrapNavbar.Brand>
         <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
@@ -33,7 +41,7 @@ export default function Header({ onLoginClick }) {
             {currentUser && (
               <>
                 <Nav.Link href="/dashboard">Dashboard</Nav.Link>
-                <Nav.Link href="/settings">Settings</Nav.Link>
+                <Nav.Link href="/recipes">Recipes</Nav.Link>
               </>
             )}
           </Nav>
@@ -41,12 +49,12 @@ export default function Header({ onLoginClick }) {
             {currentUser ? (
               <div className="d-flex align-items-center">
                 <span className="me-3">{currentUser.email}</span>
-                <Button variant="outline-primary" onClick={handleLogout}>
+                <Button variant="outline-danger" onClick={handleLogout}>
                   Logout
                 </Button>
               </div>
             ) : (
-              <Button variant="primary" onClick={onLoginClick}>
+              <Button variant="success" onClick={onLoginClick}>
                 Login
               </Button>
             )}

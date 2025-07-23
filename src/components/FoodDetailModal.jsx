@@ -42,7 +42,7 @@ export default function FoodDetailModal({ show, onClose, food }) {
                       ? "bg-danger"
                       : food.status === "Expiring soon"
                       ? "bg-warning text-dark"
-                      : "bg-primary"
+                      : "bg-success"
                   }`}
                 >
                   {food.status}

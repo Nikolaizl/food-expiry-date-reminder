@@ -11,6 +11,8 @@ import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import { messaging, getToken, onMessage } from "./firebase/firebaseConfig";
+import RecipeSearch from "./pages/RecipeSearch";
+import RecipeDetail from "./pages/RecipeDetail";
 
 export default function App() {
   console.log("App component rendering");
@@ -72,10 +74,18 @@ export default function App() {
                 }
               />
               <Route
-                path="/settings"
+                path="/recipes"
                 element={
                   <PrivateRoute>
-                    <Settings />
+                    <RecipeSearch />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/recipes/:id"
+                element={
+                  <PrivateRoute>
+                    <RecipeDetail />
                   </PrivateRoute>
                 }
               />

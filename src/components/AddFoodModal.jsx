@@ -243,7 +243,7 @@ export default function AddFoodModal({
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button type="submit" variant="primary">
+          <Button type="submit" variant="success">
             {foodToEdit ? "Save Changes" : "Add"}
           </Button>
         </Modal.Footer>

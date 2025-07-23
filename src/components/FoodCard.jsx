@@ -31,7 +31,7 @@ export default function FoodCard({ food, onUpdate, onDelete, onPressFood }) {
       <i class="bi bi-battery-full"></i> Fresh
     </span>
   );
-  let badgeClass = "bg-primary";
+  let badgeClass = "bg-success";
 
   if (isBefore(expiryDate, today)) {
     status = (
