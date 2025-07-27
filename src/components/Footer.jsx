@@ -2,11 +2,16 @@ import { Container } from "react-bootstrap";
 
 export default function Footer() {
   return (
-    <footer className="bg-light mt-auto py-3">
+    <footer
+      style={{
+        background: "#28a745",
+        color: "#fff",
+        padding: "15px 0",
+        textAlign: "center",
+      }}
+    >
       <Container>
-        <p className="text-center text-muted mb-0">
-          © 2025 Good2Eat. All rights reserved.
-        </p>
+        <p className="mb-0">© 2025 Good2Eat. All rights reserved.</p>
       </Container>
     </footer>
   );

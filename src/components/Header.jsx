@@ -22,14 +22,20 @@ export default function Header({ onLoginClick }) {
   };
 
   return (
-    <BootstrapNavbar bg="light" expand="lg" className="">
+    <BootstrapNavbar
+      expand="lg"
+      style={{
+        background: "linear-gradient(90deg, #28a745, #218838)",
+      }}
+      variant="dark"
+    >
       <Container>
         <BootstrapNavbar.Brand href={currentUser ? "/dashboard" : "/"}>
           <img
             src={logo}
             alt="Good2Eat Logo"
-            width="30"
-            height="30"
+            width="32"
+            height="32"
             className="d-inline-block align-top me-2"
           />
           Good2Eat
@@ -48,13 +54,13 @@ export default function Header({ onLoginClick }) {
           <Nav>
             {currentUser ? (
               <div className="d-flex align-items-center">
-                <span className="me-3">{currentUser.email}</span>
-                <Button variant="outline-danger" onClick={handleLogout}>
+                <span className="me-3 text-light">{currentUser.email}</span>
+                <Button variant="outline-light" onClick={handleLogout}>
                   Logout
                 </Button>
               </div>
             ) : (
-              <Button variant="success" onClick={onLoginClick}>
+              <Button variant="light" onClick={onLoginClick}>
                 Login
               </Button>
             )}

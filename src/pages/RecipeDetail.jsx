@@ -35,32 +35,45 @@ export default function RecipeDetail() {
 
   return (
     <Container className="my-5">
-      <Link to="/recipes">
-        <Button variant="outline-secondary" className="mb-4">
-          ← Back to Search
+      <Link to="/recipes" className="text-decoration-none">
+        <Button variant="outline-success" className="mb-4">
+          <i className="bi bi-arrow-left"></i> Back to Search
         </Button>
       </Link>
 
-      <Card className="mx-auto" style={{ maxWidth: "600px" }}>
-        <Card.Img variant="top" className="img-fluid" src={recipe.image} />
+      <Card className="shadow-lg mx-auto" style={{ maxWidth: "700px" }}>
+        <div style={{ height: "300px", overflow: "hidden" }}>
+          <Card.Img
+            variant="top"
+            src={recipe.image}
+            alt={recipe.title}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </div>
         <Card.Body>
-          <Card.Title>{recipe.title}</Card.Title>
+          <h3 className="fw-bold text-success">{recipe.title}</h3>
 
+          {/* Ingredients */}
           {recipe.extendedIngredients?.length > 0 && (
             <>
               <h5 className="mt-4">Ingredients</h5>
               <ListGroup variant="flush" className="mb-3">
                 {recipe.extendedIngredients.map((ing) => (
-                  <ListGroup.Item key={ing.id}>{ing.original}</ListGroup.Item>
+                  <ListGroup.Item key={ing.id}>
+                    <i className="bi bi-check-circle text-success me-2"></i>
+                    {ing.original}
+                  </ListGroup.Item>
                 ))}
               </ListGroup>
             </>
           )}
 
+          {/* Instructions */}
           {recipe.instructions && (
             <>
               <h5 className="mt-4">Instructions</h5>
               <Card.Text
+                className="lh-lg"
                 dangerouslySetInnerHTML={{ __html: recipe.instructions }}
               />
             </>

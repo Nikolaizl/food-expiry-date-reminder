@@ -13,7 +13,6 @@ export default function LoginModal({ show, onClose, defaultIsSignUp = false }) {
   const [password, setPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(defaultIsSignUp);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setIsSignUp(defaultIsSignUp);
@@ -22,7 +21,6 @@ export default function LoginModal({ show, onClose, defaultIsSignUp = false }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
 
     try {
       console.log("Attempting authentication...", { isSignUp });
@@ -41,14 +39,11 @@ export default function LoginModal({ show, onClose, defaultIsSignUp = false }) {
     } catch (error) {
       console.error("Authentication error:", error);
       setError(error.message);
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleGoogleSignIn = async () => {
     setError("");
-    setLoading(true);
 
     try {
       console.log("Attempting Google sign in...");
@@ -59,8 +54,6 @@ export default function LoginModal({ show, onClose, defaultIsSignUp = false }) {
     } catch (error) {
       console.error("Google sign in error:", error);
       setError(error.message);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -68,7 +61,6 @@ export default function LoginModal({ show, onClose, defaultIsSignUp = false }) {
     setEmail("");
     setPassword("");
     setError("");
-    setLoading(false);
     onClose();
   };
 
