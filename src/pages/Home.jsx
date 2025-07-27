@@ -16,7 +16,7 @@ export default function Home() {
     <div className="content-bg d-flex justify-content-center align-items-center">
       <div className="p-4 bg-dark bg-opacity-75 rounded shadow text-center">
         <img
-          src="/src/assets/images/Logo_Good2Eat.png"
+          src="../assets/images/Logo_Good2Eat.png"
           alt="Good2Eat Logo"
           style={{ width: "80px", marginBottom: "15px" }}
         />
