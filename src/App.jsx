@@ -59,7 +59,6 @@ export default function App() {
         <div className="min-vh-100 d-flex flex-column">
           <Header onLoginClick={() => setShowLogin(true)} />
           <main className="flex-grow-1 container py-3">
-            {/* Add a button to request notification permission */}
             <div className="text-center mb-3">
               <Button variant="success" onClick={requestPermission}>
                 Enable Notifications
