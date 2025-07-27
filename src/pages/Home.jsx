@@ -2,6 +2,7 @@ import { Button } from "react-bootstrap";
 import { useState } from "react";
 import "./Home.css";
 import LoginModal from "../components/LoginModal";
+import logo from "../assets/images/Logo_Good2Eat.png";
 
 export default function Home() {
   const [showLogin, setShowLogin] = useState(false);
@@ -16,7 +17,7 @@ export default function Home() {
     <div className="content-bg d-flex justify-content-center align-items-center">
       <div className="p-4 bg-dark bg-opacity-75 rounded shadow text-center">
         <img
-          src="../assets/images/Logo_Good2Eat.png"
+          src={logo}
           alt="Good2Eat Logo"
           style={{ width: "80px", marginBottom: "15px" }}
         />
