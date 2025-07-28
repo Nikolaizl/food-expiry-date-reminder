@@ -13,58 +13,49 @@ import PublicRoute from "./components/PublicRoute";
 import { messaging, getToken, onMessage } from "./firebase/firebaseConfig";
 import RecipeSearch from "./pages/RecipeSearch";
 import RecipeDetail from "./pages/RecipeDetail";
-import { Button } from "react-bootstrap";
 
 export default function App() {
+  console.log("App component rendering");
   const [showLogin, setShowLogin] = useState(false);
-  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
+    async function requestPermission() {
+      try {
+        const currentToken = await getToken(messaging, {
+          vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
+        });
+        if (currentToken) {
+          console.log("Push token:", currentToken);
+        } else {
+          console.warn("No registration token available.");
+        }
+      } catch (err) {
+        console.error("An error occurred while retrieving token.", err);
+      }
+    }
+
+    requestPermission();
+
     onMessage(messaging, (payload) => {
-      console.log("Message received:", payload);
-      setNotification(payload.notification);
-      alert(`${payload.notification.title}: ${payload.notification.body}`);
+      console.log("Message received. ", payload);
+      alert(payload.notification.title + ": " + payload.notification.body);
     });
   }, []);
 
-  useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("/firebase-messaging-sw.js")
-        .then((registration) => {
-          console.log("Service Worker registered:", registration);
-        });
-    }
-  }, []);
-
-  const requestPermission = async () => {
-    try {
-      const currentToken = await getToken(messaging, {
-        vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .register("/firebase-messaging-sw.js")
+      .then((registration) => {
+        console.log("Service Worker registered:", registration);
       });
-      if (currentToken) {
-        console.log("Push token:", currentToken);
-        alert("Notifications enabled!");
-      } else {
-        console.warn("No registration token available.");
-      }
-    } catch (err) {
-      console.error("Error while retrieving token:", err);
-    }
-  };
+  }
 
   return (
     <AuthProvider>
       <Router>
         <div className="min-vh-100 d-flex flex-column">
           <Header onLoginClick={() => setShowLogin(true)} />
-          <main className="flex-grow-1 container py-3">
-            <div className="text-center mb-3">
-              <Button variant="success" onClick={requestPermission}>
-                Enable Notifications
-              </Button>
-            </div>
-
+          <main className="flex-grow-1">
             <Routes>
               <Route
                 path="/"
@@ -95,6 +86,14 @@ export default function App() {
                 element={
                   <PrivateRoute>
                     <RecipeDetail />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/settings"
+                element={
+                  <PrivateRoute>
+                    <Settings />
                   </PrivateRoute>
                 }
               />

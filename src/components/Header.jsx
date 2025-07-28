@@ -48,6 +48,7 @@ export default function Header({ onLoginClick }) {
               <>
                 <Nav.Link href="/dashboard">Dashboard</Nav.Link>
                 <Nav.Link href="/recipes">Recipes</Nav.Link>
+                <Nav.Link href="/options">Options</Nav.Link>
               </>
             )}
           </Nav>
